@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: NBA database
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-container
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: adminpassword
+    ports:
+      - "5050:80"  # Maps pgAdmin to localhost:5050
+    depends_on:
+      - postgres  # Ensures PostgreSQL starts before pgAdmin
+
+volumes:
+  postgres_data:
+
+
+#######################################################################
+# docker compose up -d 
+# connect to pqsl: docker exec -it postgres-container psql -U postgres
+########################################################################
